@@ -3,6 +3,7 @@ package com.mohammed;
 public class Node {
     Node rootNode;
     PuzzleBoard state;
+    Node childNode;
 
 
     public Node(PuzzleBoard state) {

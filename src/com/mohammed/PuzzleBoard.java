@@ -1,13 +1,16 @@
 package com.mohammed;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class PuzzleBoard {
 
-    private char[][] board;
+    public char[][] board;
     public int row;
     public int col;
+    public int cost;
+    public int level;
 
     PuzzleBoard(char[][] board, int row, int col) {
         char[][] x = new char[3][3];
@@ -90,6 +93,75 @@ public class PuzzleBoard {
                 ps.print(board[i][j]+" ");
             ps.println();
         }
+    }
+
+    public PuzzleBoard[] move() {
+        int possibleMoves = getPossibleMoves();
+        PuzzleBoard[] boards = new PuzzleBoard[possibleMoves];
+        possibleMoves--;
+        char temp;
+        if (col != 0) {
+            int newRow = row;
+            int newCol = col;
+            char[][] newBoard = new char[3][3];
+            for (int i = 0; i < 3; i++)
+                newBoard[i] = Arrays.copyOf(board[i],3);
+            newCol--;
+            temp = newBoard[newRow][newCol];
+            newBoard[newRow][newCol] = '-';
+            newBoard[newRow][col] = temp;
+            boards[possibleMoves--] = new PuzzleBoard(newBoard,newRow, newCol);
+        }
+        if (col != 2) {
+            int newRow = row;
+            int newCol = col;
+            char[][] newBoard = new char[3][3];
+            for (int i = 0; i < 3; i++)
+                newBoard[i] = Arrays.copyOf(board[i],3);
+            newCol++;
+            temp = newBoard[newRow][newCol];
+            newBoard[newRow][newCol] = '-';
+            newBoard[newRow][col] = temp;
+            boards[possibleMoves--] = new PuzzleBoard(newBoard,newRow, newCol);
+        }
+        if (row != 0) {
+            int newRow = row;
+            int newCol = col;
+            char[][] newBoard = new char[3][3];
+            for (int i = 0; i < 3; i++)
+                newBoard[i] = Arrays.copyOf(board[i],3);
+            newRow--;
+            temp = newBoard[newRow][newCol];
+            newBoard[newRow][newCol] = '-';
+            newBoard[row][newCol] = temp;
+            boards[possibleMoves--] = new PuzzleBoard(newBoard,newRow, newCol);
+        }
+        if (row != 2) {
+            int newRow = row;
+            int newCol = col;
+            char[][] newBoard = new char[3][3];
+            for (int i = 0; i < 3; i++)
+                newBoard[i] = Arrays.copyOf(board[i],3);
+            newRow++;
+            temp = newBoard[newRow][newCol];
+            newBoard[newRow][newCol] = '-';
+            newBoard[row][newCol] = temp;
+            boards[possibleMoves--] = new PuzzleBoard(newBoard,newRow, newCol);
+        }
+        return boards;
+    }
+
+    public int getPossibleMoves() {
+        int possibleMoves = 0;
+        if (col != 0)
+            possibleMoves++;
+        if (col != 2)
+            possibleMoves++;
+        if (row != 0)
+            possibleMoves++;
+        if (row != 2)
+            possibleMoves++;
+        return possibleMoves;
     }
 
 }
